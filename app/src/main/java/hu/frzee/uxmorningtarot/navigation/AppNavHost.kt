@@ -19,6 +19,7 @@ import androidx.navigation.navigation
 import hu.frzee.uxmorningtarot.themes.MorningTarotTheme
 import hu.frzee.uxmorningtarot.views.AlarmSet
 import hu.frzee.uxmorningtarot.views.Loading
+import hu.frzee.uxmorningtarot.views.MainPage
 
 @Composable
 fun AppNavHost(
@@ -67,7 +68,7 @@ fun AppNavHost(
                     Screen.Loading.name ->
                         slideIntoContainer(
                             AnimatedContentTransitionScope.SlideDirection.Left,
-                            animationSpec = tween(300)
+                            animationSpec = tween(700)
                         )
 
                     else -> null
@@ -78,7 +79,7 @@ fun AppNavHost(
                     Screen.Loading.name ->
                         slideOutOfContainer(
                             AnimatedContentTransitionScope.SlideDirection.Right,
-                            animationSpec = tween(300)
+                            animationSpec = tween(700)
                         )
 
                     else -> null
@@ -86,7 +87,59 @@ fun AppNavHost(
             },
         ) {
             AlarmSet(
-                onBackNavigate = { navController.navigate(Screen.Loading.name) }
+                onBackNavigate = { navController.navigate(Screen.MainPage.name) },
+                onAlarmSave = { navController.navigate(Screen.MainPage.name) },
+                onAlarmDismiss = { navController.navigate(Screen.MainPage.name) },
+            )
+        }
+        composable(NavigationItem.MainPage.route,
+            enterTransition = {
+                when (initialState.destination.route) {
+                    Screen.Loading.name ->
+                        slideIntoContainer(
+                            AnimatedContentTransitionScope.SlideDirection.Left,
+                            animationSpec = tween(700)
+                        )
+
+                    else -> null
+                }
+            },
+            exitTransition = {
+                when (targetState.destination.route) {
+                    Screen.Loading.name ->
+                        slideOutOfContainer(
+                            AnimatedContentTransitionScope.SlideDirection.Right,
+                            animationSpec = tween(700)
+                        )
+
+                    else -> null
+                }
+            },
+            popEnterTransition = {
+                when (initialState.destination.route) {
+                    Screen.Loading.name ->
+                        slideIntoContainer(
+                            AnimatedContentTransitionScope.SlideDirection.Left,
+                            animationSpec = tween(700)
+                        )
+
+                    else -> null
+                }
+            },
+            popExitTransition = {
+                when (targetState.destination.route) {
+                    Screen.Loading.name ->
+                        slideOutOfContainer(
+                            AnimatedContentTransitionScope.SlideDirection.Right,
+                            animationSpec = tween(700)
+                        )
+
+                    else -> null
+                }
+            },
+        ) {
+            MainPage(
+                //onBackNavigate = { navController.navigate(Screen.Loading.name) }
             )
         }
         /*

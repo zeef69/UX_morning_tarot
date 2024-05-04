@@ -72,12 +72,16 @@ import hu.frzee.uxmorningtarot.themes.MorningTarotTheme
 import hu.frzee.uxmorningtarot.themes.Typography_Card
 import hu.frzee.uxmorningtarot.themes.Typography_Mono
 import hu.frzee.uxmorningtarot.themes.bigelowRulesFamily
+import hu.frzee.uxmorningtarot.views.helpers.LabelWithSwitch
+import hu.frzee.uxmorningtarot.views.helpers.WeekDaySelector
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AlarmSet(
     onBackNavigate: () -> Unit,
+    onAlarmSave: () -> Unit,
+    onAlarmDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val timePickerState = TimePickerState(9, 15, true)
@@ -102,7 +106,7 @@ fun AlarmSet(
                 Text(
                     text = "Ébresztő",
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    style = Typography_Mono.titleLarge
+                    style = Typography_Mono.titleMedium
                 )
             },
             navigationIcon = {
@@ -159,7 +163,7 @@ fun AlarmSet(
                         color = MaterialTheme.colorScheme.onSurface,
                         style = Typography_Mono.titleSmall
                     )
-                    WeekHKSCPSV(selectionWeek)
+                    WeekDaySelector(selectionWeek)
                 }
             }
 
@@ -215,7 +219,7 @@ fun AlarmSet(
                         .padding(vertical = 8.dp)
                 ) {
                     Button(
-                        onClick = { },
+                        onClick = onAlarmSave,
                         shape = RoundedCornerShape(100.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer),
                         contentPadding = PaddingValues(horizontal = 24.dp, vertical = 10.dp),
@@ -245,7 +249,7 @@ fun AlarmSet(
                         }
                     }
                     Button(
-                        onClick = { },
+                        onClick = onAlarmDismiss,
                         shape = RoundedCornerShape(100.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer),
                         contentPadding = PaddingValues(horizontal = 24.dp, vertical = 10.dp),
@@ -281,151 +285,9 @@ fun AlarmSet(
 
 }
 
-@Composable
-fun WeekHKSCPSV(
-    selectionWeek: List<Boolean> = ArrayList<Boolean>(),
-    modifier: Modifier = Modifier
-) {
-    var selectedDay1 by remember { mutableStateOf(if (selectionWeek.size >= 7) selectionWeek[0] else false) }
-    var selectedDay2 by remember { mutableStateOf(if (selectionWeek.size >= 7) selectionWeek[1] else false) }
-    var selectedDay3 by remember { mutableStateOf(if (selectionWeek.size >= 7) selectionWeek[2] else false) }
-    var selectedDay4 by remember { mutableStateOf(if (selectionWeek.size >= 7) selectionWeek[3] else false) }
-    var selectedDay5 by remember { mutableStateOf(if (selectionWeek.size >= 7) selectionWeek[4] else false) }
-    var selectedDay6 by remember { mutableStateOf(if (selectionWeek.size >= 7) selectionWeek[5] else false) }
-    var selectedDay7 by remember { mutableStateOf(if (selectionWeek.size >= 7) selectionWeek[6] else false) }
-
-    Column(
-        verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.Top),
-        modifier = modifier
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(5.dp, Alignment.Start),
-            modifier = Modifier
-                .padding(horizontal = 4.dp)
-        ) {
-            DaySelectionHKSCPSV("Hé", selectedDay1)
-            DaySelectionHKSCPSV("Ke", selectedDay2)
-            DaySelectionHKSCPSV("Sze", selectedDay3)
-            DaySelectionHKSCPSV("Csüt", selectedDay4)
-            DaySelectionHKSCPSV("Pé", selectedDay5)
-            DaySelectionHKSCPSV("Szo", selectedDay6)
-            DaySelectionHKSCPSV("Vas", selectedDay7)
-        }
-    }
-}
-
-@Composable
-fun DaySelectionHKSCPSV(
-    text: String = "Hét",
-    selectionDay: Boolean = false,
-    modifier: Modifier = Modifier
-) {
-    var selectedDay by remember { mutableStateOf(selectionDay) }
-
-    var modifierDay =
-        if (selectedDay) Modifier.background(color = MaterialTheme.colorScheme.secondaryContainer)
-        else Modifier
-    Column(
-        verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.Top),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
-            .padding(
-                start = 2.dp,
-                end = 2.dp,
-                bottom = 4.dp
-            )
-            .clip(shape = MaterialTheme.shapes.large)
-            .clickable { selectedDay = !selectedDay }
-
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = modifierDay
-                .padding(all = 6.dp)
-        ) {
-            Text(
-                text = text,
-                color = MaterialTheme.colorScheme.surfaceTint,
-                textAlign = TextAlign.Center,
-                lineHeight = 1.33.em,
-                style = MaterialTheme.typography.labelMedium
-            )
-        }
-    }
-}
-
-@Composable
-fun LabelWithSwitch(
-    checkedState: MutableState<Boolean>,
-    title: String = "Title",
-    subText: String = "SubTitle",
-    color: Color = MaterialTheme.colorScheme.background,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
-            .requiredWidth(width = 344.dp)
-            .requiredHeight(height = 56.dp)
-            .padding(horizontal = 16.dp)
-            .clip(shape = RoundedCornerShape(16.dp))
-            .background(color = color)
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.Start),
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(
-                    start = 16.dp,
-                    end = 24.dp
-                )
-        ) {
-            Column(
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .weight(weight = 0.8f)
-            ) {
-                Text(
-                    text = title,
-                    color = MaterialTheme.colorScheme.surfaceTint,
-                    lineHeight = 1.5.em,
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(align = Alignment.CenterVertically)
-                )
-                Text(
-                    text = subText,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    lineHeight = 1.43.em,
-                    style = MaterialTheme.typography.bodyMedium,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
-            }
-            Column(
-                verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.Top),
-                modifier = Modifier
-                    .weight(weight = 0.2f)
-            ) {
-                val checkedState = checkedState
-                Switch(
-                    checked = checkedState.value,
-                    onCheckedChange = { checkedState.value = it })
-            }
-        }
-    }
-}
-
 @Preview(widthDp = 360, heightDp = 800,  name = "Light Mode")
 @Preview(widthDp = 360, heightDp = 800, uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Dark Mode")
 @Composable
 private fun AlarmSetPreview() {
-    AlarmSet({}, Modifier)
+    AlarmSet({},{},{}, Modifier)
 }

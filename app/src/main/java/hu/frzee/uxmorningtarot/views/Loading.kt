@@ -71,7 +71,7 @@ fun Loading(
                 .padding(
                     start = 2.dp,
                     end = 2.dp,
-                    top = 20.dp,
+                    top = 30.dp,
                     bottom = 50.dp
                 )
         ) {
