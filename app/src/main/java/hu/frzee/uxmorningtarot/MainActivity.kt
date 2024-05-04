@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    
                     AppNavHost(navController = rememberNavController())
                 }
             }
