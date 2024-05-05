@@ -49,6 +49,7 @@ import androidx.compose.material3.TimePickerColors
 import androidx.compose.material3.TimePickerState
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.lightColorScheme
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -81,27 +82,25 @@ import hu.frzee.uxmorningtarot.views.helpers.HorizontalDiv
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AlarmSet(
+    alarmTitle: MutableState<String>,
+    timePickerState: TimePickerState,
     checkedStateSound: MutableState<Boolean>,
     checkedStatePulse: MutableState<Boolean>,
+    checkedStateSleep: MutableState<Boolean>,
     selectedAlarmSong : MutableState<String>,
     selectedAlarmPulse : MutableState<String>,
+    selectedAlarmInterval : MutableState<String>,
+    selectedAlarmRepeat : MutableState<String>,
+    selectionWeek : List<MutableState<Boolean>>,
     onSetAlarmSound: () -> Unit,
     onSetAlarmPulse: () -> Unit,
+    onSetAlarmSleep: () -> Unit,
     onBackNavigate: () -> Unit,
     onAlarmSave: () -> Unit,
     onAlarmDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val timePickerState = TimePickerState(9, 15, true)
-    val selectionWeek = mutableListOf<Boolean>()
-    for (i in 1..7) {
-        selectionWeek.add(false)
-    }
-    //val checkedStateSound = remember { mutableStateOf(true) }
-    //val checkedStateNoise = remember { mutableStateOf(true) }
-    val checkedStateSleep = remember { mutableStateOf(false) }
     val checkedStateSpeech = remember { mutableStateOf(false) }
-    var titleInput by remember { mutableStateOf("") }
 
     Column(
         modifier = modifier
@@ -139,7 +138,6 @@ fun AlarmSet(
                 .padding(12.dp, 10.dp, 12.dp, 20.dp)
                 .weight(1f, false)
         ) {
-
             Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -165,10 +163,9 @@ fun AlarmSet(
                         color = MaterialTheme.colorScheme.onSurface,
                         style = Typography_Mono.titleSmall
                     )
-                    WeekDaySelector(selectionWeek)
+                    WeekDaySelector(selectionWeek, true)
                 }
             }
-
             Column(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -180,8 +177,8 @@ fun AlarmSet(
             ) {
 
                 TextField(
-                    value = titleInput,
-                    onValueChange = { titleInput = it },
+                    value = alarmTitle.value,
+                    onValueChange = { alarmTitle.value = it },
                     label = {
                         Text(
                             text = "Jelzés neve",
@@ -199,9 +196,28 @@ fun AlarmSet(
                         .clip(shape = RoundedCornerShape(6.dp))
                         .background(color = MaterialTheme.colorScheme.tertiaryContainer)
                 )
-                LabelWithSwitch(checkedStateSound, onClickText = onSetAlarmSound,"Jelzőhang", selectedAlarmSong.value)
-                LabelWithSwitch(checkedStatePulse, onClickText = onSetAlarmPulse, "Rezgés", selectedAlarmPulse.value, color=MaterialTheme.colorScheme.tertiaryContainer)
-                LabelWithSwitch(checkedStateSleep, onClickText ={}, "Szundi", "", )
+                LabelWithSwitch(checkedStateSound, onClickText = onSetAlarmSound,"Jelzőhang",
+                    if(checkedStateSound.value) {
+                        selectedAlarmSong.value
+                    } else {
+                        ""
+                    },
+                )
+                LabelWithSwitch(checkedStatePulse, onClickText = onSetAlarmPulse, "Rezgés",
+                    if(checkedStatePulse.value) {
+                        selectedAlarmPulse.value
+                    } else {
+                        ""
+                    },
+                    color=MaterialTheme.colorScheme.tertiaryContainer
+                )
+                LabelWithSwitch(checkedStateSleep, onClickText = onSetAlarmSleep, "Szundi",
+                    if(checkedStateSleep.value) {
+                        selectedAlarmInterval.value +", "+selectedAlarmRepeat.value
+                    } else {
+                        ""
+                    }
+                )
                 LabelWithSwitch(checkedStateSpeech, onClickText ={}, "Felolvasás", "", color=MaterialTheme.colorScheme.tertiaryContainer)
             }
             Column(

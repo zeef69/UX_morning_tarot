@@ -81,14 +81,17 @@ import hu.frzee.uxmorningtarot.views.helpers.WeekDaySelector
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AlarmSound(
-    checkedStateSound: MutableState<Boolean>,
-    songList: List<String>,
-    selectedAlarmSong : MutableState<String>,
-    originalSelectedSong: MutableState<String>,
+fun AlarmSleep(
+    checkedStateSleep: MutableState<Boolean>,
+    intervalList: List<String>,
+    repeatList: List<String>,
+    selectedAlarmInterval : MutableState<String>,
+    selectedAlarmRepeat : MutableState<String>,
+    originalSelectedInterval: MutableState<String>,
+    originalSelectedRepeat: MutableState<String>,
     onBackNavigate: () -> Unit,
-    onAlarmSoundSave: () -> Unit,
-    onAlarmSoundDismiss: () -> Unit,
+    onAlarmSleepSave: () -> Unit,
+    onAlarmSleepDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -100,7 +103,7 @@ fun AlarmSound(
         TopAppBar(
             title = {
                 Text(
-                    text = "Ébresztőhang",
+                    text = "Szundi beállítása",
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     style = Typography_Mono.titleMedium
                 )
@@ -135,7 +138,7 @@ fun AlarmSound(
                     .weight(0.2f, false)
                     .padding(all = 8.dp)
             ) {
-                LabelWithSwitch(checkedStateSound, onClickText={},"Bekapcsolás", "")
+                LabelWithSwitch(checkedStateSleep, onClickText={},"Bekapcsolás", "")
                 HorizontalDiv(modifier = Modifier.padding(horizontal = 10.dp))
             }
             Column(
@@ -147,6 +150,12 @@ fun AlarmSound(
                     .padding(all = 6.dp)
                     .verticalScroll(rememberScrollState())
             ) {
+                Text(
+                    text = "Intervallum",
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    style = Typography_Mono.titleSmall,
+                    modifier = modifier
+                        .wrapContentHeight(align = Alignment.CenterVertically))
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.Start),
                     verticalAlignment = Alignment.CenterVertically,
@@ -156,7 +165,25 @@ fun AlarmSound(
                         .background(color = MaterialTheme.colorScheme.surface)
                         .padding(all = 16.dp)
                 ) {
-                    RadioButtonList(songList, selectedAlarmSong)
+                    RadioButtonList(intervalList, selectedAlarmInterval)
+                }
+                Text(
+                    text = "Ismétlés",
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    style = Typography_Mono.titleSmall,
+                    modifier = modifier
+                        .wrapContentHeight(align = Alignment.CenterVertically)
+                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.Start),
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(shape = RoundedCornerShape(28.dp))
+                        .background(color = MaterialTheme.colorScheme.surface)
+                        .padding(all = 16.dp)
+                ) {
+                    RadioButtonList(repeatList, selectedAlarmRepeat)
                 }
             }
             Column(
@@ -178,8 +205,9 @@ fun AlarmSound(
                 ) {
                     Button(
                         onClick = {
-                            originalSelectedSong.value = selectedAlarmSong.value
-                            onAlarmSoundSave()
+                            originalSelectedInterval.value = selectedAlarmInterval.value
+                            originalSelectedRepeat.value = selectedAlarmRepeat.value
+                            onAlarmSleepSave()
                         },
                         shape = RoundedCornerShape(100.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer),
@@ -211,8 +239,9 @@ fun AlarmSound(
                     }
                     Button(
                         onClick = {
-                            selectedAlarmSong.value = originalSelectedSong.value
-                            onAlarmSoundDismiss() },
+                            selectedAlarmInterval.value = originalSelectedInterval.value
+                            selectedAlarmRepeat.value = originalSelectedRepeat.value
+                            onAlarmSleepDismiss() },
                         shape = RoundedCornerShape(100.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer),
                         contentPadding = PaddingValues(horizontal = 24.dp, vertical = 10.dp),
@@ -249,12 +278,19 @@ fun AlarmSound(
 @Preview(widthDp = 360, heightDp = 800,  name = "Light Mode")
 @Preview(widthDp = 360, heightDp = 800, uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Dark Mode")
 @Composable
-private fun AlarmSoundPreview() {
+private fun AlarmSleepPreview() {
     val checkedStateSound = remember { mutableStateOf(true) }
     var alarmSongList = listOf("My Song", "Madár dal", "Aktuális kedvenc", "Pittyegés", "Reggeli torna")
+    var alarmSongList2 = listOf("My Song", "Madár dal", "Aktuális kedvenc", "Pittyegés", "Reggeli torna")
     var alarmSongValue : MutableState<String> = remember { mutableStateOf(alarmSongList[0]) }
+    var alarmSongValue2 : MutableState<String> = remember { mutableStateOf(alarmSongList2[0]) }
     var selectedAlarmSong by remember { mutableStateOf(alarmSongValue) }
+    var selectedAlarmSong2 by remember { mutableStateOf(alarmSongValue2) }
     var originalSongValue : MutableState<String> = remember { mutableStateOf("My Song") }
+    var originalSongValue2 : MutableState<String> = remember { mutableStateOf("My Song") }
     var originalSelectedSong by remember { mutableStateOf(originalSongValue) }
-    AlarmSound(checkedStateSound,alarmSongList,selectedAlarmSong,originalSelectedSong,{},{},{},Modifier)
+    var originalSelectedSong2 by remember { mutableStateOf(originalSongValue2) }
+    AlarmSleep(checkedStateSound,alarmSongList,alarmSongList2,
+        selectedAlarmSong,selectedAlarmSong2,
+        originalSelectedSong,originalSelectedSong2,{},{},{},Modifier)
 }

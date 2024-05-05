@@ -5,6 +5,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,8 +33,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TimePickerState
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -52,14 +55,13 @@ import hu.frzee.uxmorningtarot.views.helpers.WeekDaySelector
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainPage(
+    alarmTitle: MutableState<String>,
+    timePickerState: TimePickerState,
+    selectionWeek : List<MutableState<Boolean>>,
+    checkedAlarmState: MutableState<Boolean>,
+    onSetAlarm: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val selectionWeek = mutableListOf<Boolean>()
-    for (i in 1..7) {
-        selectionWeek.add(false)
-    }
-    val checkedAlarmState = remember { mutableStateOf(true) }
-
 
     Column(
         modifier = modifier
@@ -99,6 +101,7 @@ fun MainPage(
                         modifier = Modifier
                             .padding(
                                 vertical = 4.dp)
+                            .clickable { onSetAlarm() }
                     ) {
                         Column(
                             verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
@@ -110,7 +113,7 @@ fun MainPage(
                                 .border(border = BorderStroke(5.dp, MaterialTheme.colorScheme.primary),
                                     shape = RoundedCornerShape(40.dp))
                                 .padding(horizontal = 8.dp,
-                                    vertical = 32.dp)
+                                    vertical = 12.dp)
                         ) {
                             Column(
                                 verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
@@ -132,7 +135,7 @@ fun MainPage(
                                         modifier = Modifier
                                             .fillMaxWidth())
                                 }
-                                WeekDaySelector(selectionWeek)
+                                WeekDaySelector(selectionWeek, false, MaterialTheme.colorScheme.secondary, MaterialTheme.colorScheme.surface)
                                 Box(
                                     modifier = Modifier
                                         .width(171.dp)
@@ -146,7 +149,7 @@ fun MainPage(
                                             .padding(horizontal = 27.dp)
                                     ) {
                                         Text(
-                                            text = "20",
+                                            text = timePickerState.hour.toString(),
                                             color = MaterialTheme.colorScheme.onSecondaryContainer,
                                             textAlign = TextAlign.Center,
                                             lineHeight = 2.29.em,
@@ -166,7 +169,7 @@ fun MainPage(
                                                 .requiredHeight(height = 37.dp)
                                                 .wrapContentHeight(align = Alignment.CenterVertically))
                                         Text(
-                                            text = "49",
+                                            text = timePickerState.minute.toString(),
                                             color = MaterialTheme.colorScheme.onSecondaryContainer,
                                             textAlign = TextAlign.Center,
                                             lineHeight = 2.29.em,
@@ -178,6 +181,19 @@ fun MainPage(
                                     }
                                 }
 
+                            }
+                            if(alarmTitle.value != ""){
+                                Text(
+                                    text = alarmTitle.value,
+                                    color = MaterialTheme.colorScheme.onSecondaryContainer,
+                                    textAlign = TextAlign.Center,
+                                    lineHeight = 1.43.em,
+                                    style = Typography_Mono.titleSmall,
+                                    modifier = Modifier
+                                        .width(140.dp)
+                                        .height(31.dp)
+                                        .wrapContentHeight(align = Alignment.CenterVertically)
+                                )
                             }
                             Row(
                                 horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally),
@@ -542,5 +558,11 @@ fun HorizontalDivider(modifier: Modifier = Modifier) {
 @Preview(widthDp = 360, heightDp = 800, uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Dark Mode")
 @Composable
 private fun MainPagePreview() {
-    MainPage(Modifier)
+    var alarmTitleValue = remember { mutableStateOf("") }
+    val selectionWeek = mutableListOf<Boolean>()
+    for (i in 1..7) {
+        selectionWeek.add(false)
+    }
+    val checkedAlarmState = remember { mutableStateOf(true) }
+    //MainPage(alarmTitleValue,selectionWeek,checkedAlarmState,{},Modifier)
 }

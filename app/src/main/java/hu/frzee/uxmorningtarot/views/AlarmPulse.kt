@@ -136,6 +136,7 @@ fun AlarmPulse(
                     .padding(all = 8.dp)
             ) {
                 LabelWithSwitch(checkedStatePulse, onClickText={},"Bekapcsolás", "")
+                HorizontalDiv(modifier = Modifier.padding(horizontal = 10.dp))
             }
             Column(
                 verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Top),
@@ -146,14 +147,13 @@ fun AlarmPulse(
                     .padding(all = 6.dp)
                     .verticalScroll(rememberScrollState())
             ) {
-                HorizontalDiv(modifier = Modifier.padding(horizontal = 10.dp))
-                Row(
+               Row(
                     horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.Start),
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(shape = RoundedCornerShape(28.dp))
-                        .background(color = MaterialTheme.colorScheme.surface)
+                        .background(color = MaterialTheme.colorScheme.tertiaryContainer)
                         .padding(all = 16.dp)
                 ) {
                     RadioButtonList(pulseList, selectedAlarmPulse)
