@@ -27,6 +27,7 @@ import androidx.compose.material.Divider
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -50,6 +51,7 @@ import androidx.compose.ui.unit.em
 import hu.frzee.uxmorningtarot.R
 import hu.frzee.uxmorningtarot.themes.Typography_Card
 import hu.frzee.uxmorningtarot.themes.Typography_Mono
+import hu.frzee.uxmorningtarot.views.helpers.DateUtils
 import hu.frzee.uxmorningtarot.views.helpers.WeekDaySelector
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -57,11 +59,19 @@ import hu.frzee.uxmorningtarot.views.helpers.WeekDaySelector
 fun MainPage(
     alarmTitle: MutableState<String>,
     timePickerState: TimePickerState,
+    datePickerState: DatePickerState,
     selectionWeek : List<MutableState<Boolean>>,
     checkedAlarmState: MutableState<Boolean>,
     onSetAlarm: () -> Unit,
+    onSetCalendar: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val millisToLocalDate = datePickerState.selectedDateMillis?.let {
+        DateUtils().convertMillisToLocalDate(it)
+    }
+    val dateToString = millisToLocalDate?.let {
+        DateUtils().dateToString(millisToLocalDate)
+    } ?: ""
 
     Column(
         modifier = modifier
@@ -356,6 +366,7 @@ fun MainPage(
                                 .border(border = BorderStroke(5.dp, MaterialTheme.colorScheme.primary),
                                     shape = RoundedCornerShape(40.dp))
                                 .padding(horizontal = 8.dp)
+                                .clickable { onSetCalendar() }
                         ) {
                             Row(
                                 horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally),
@@ -377,7 +388,7 @@ fun MainPage(
                                     .requiredHeight(height = 48.dp)
                             ) {
                                 Text(
-                                    text = "2024. ápr. 23.,\n kedd",
+                                    text = dateToString,
                                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                                     textAlign = TextAlign.Center,
                                     lineHeight = 1.5.em,

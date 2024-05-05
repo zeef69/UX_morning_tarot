@@ -9,6 +9,7 @@ import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.animation.shrinkOut
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -28,8 +29,10 @@ import hu.frzee.uxmorningtarot.views.AlarmPulse
 import hu.frzee.uxmorningtarot.views.AlarmSet
 import hu.frzee.uxmorningtarot.views.AlarmSleep
 import hu.frzee.uxmorningtarot.views.AlarmSound
+import hu.frzee.uxmorningtarot.views.CalendarPicker
 import hu.frzee.uxmorningtarot.views.Loading
 import hu.frzee.uxmorningtarot.views.MainPage
+import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -91,6 +94,13 @@ fun AppNavHost(
     var originalSelectedInterval by remember { mutableStateOf(originalIntervalValue) }
     var originalRepeatValue : MutableState<String> = remember { mutableStateOf("Egyszer") }
     var originalSelectedRepeat by remember { mutableStateOf(originalRepeatValue) }
+
+
+    val date = remember {
+        Calendar.getInstance().timeInMillis
+    }
+    val datePickerState = rememberDatePickerState(initialSelectedDateMillis = date)
+
 
     NavHost(
         modifier = modifier,
@@ -366,15 +376,69 @@ fun AppNavHost(
                     navController.navigate(Screen.AlarmSet.name) },
             )
         }
+        composable(NavigationItem.CalendarPicker.route,
+            enterTransition = {
+                when (initialState.destination.route) {
+                    Screen.MainPage.name->
+                        slideIntoContainer(
+                            AnimatedContentTransitionScope.SlideDirection.Left,
+                            animationSpec = tween(700)
+                        )
 
+                    else -> null
+                }
+            },
+            exitTransition = {
+                when (targetState.destination.route) {
+                    Screen.MainPage.name ->
+                        slideOutOfContainer(
+                            AnimatedContentTransitionScope.SlideDirection.Right,
+                            animationSpec = tween(700)
+                        )
+
+                    else -> null
+                }
+            },
+            popEnterTransition = {
+                when (initialState.destination.route) {
+                    Screen.MainPage.name ->
+                        slideIntoContainer(
+                            AnimatedContentTransitionScope.SlideDirection.Left,
+                            animationSpec = tween(700)
+                        )
+
+                    else -> null
+                }
+            },
+            popExitTransition = {
+                when (targetState.destination.route) {
+                    Screen.MainPage.name->
+                        slideOutOfContainer(
+                            AnimatedContentTransitionScope.SlideDirection.Right,
+                            animationSpec = tween(700)
+                        )
+
+                    else -> null
+                }
+            },
+        ) {
+            CalendarPicker(
+                datePickerState = datePickerState,
+                onBackNavigate = {
+                    navController.popBackStack()
+                    navController.navigate(Screen.MainPage.name) },
+            )
+        }
         composable(NavigationItem.MainPage.route
         ) {
             MainPage(
                 alarmTitle = alarmTitleValue,
                 timePickerState=timePickerState,
+                datePickerState = datePickerState,
                 selectionWeek=selectionWeek,
                 checkedAlarmState=checkedAlarmState,
-                onSetAlarm = { navController.navigate(Screen.AlarmSet.name) }
+                onSetAlarm = { navController.navigate(Screen.AlarmSet.name) },
+                onSetCalendar = { navController.navigate(Screen.CalendarPicker.name) }
                 //onBackNavigate = { navController.navigate(Screen.Loading.name) }
             )
         }
