@@ -19,7 +19,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import android.content.res.Configuration
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.PaddingValues
@@ -29,6 +28,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -73,33 +73,24 @@ import hu.frzee.uxmorningtarot.themes.MorningTarotTheme
 import hu.frzee.uxmorningtarot.themes.Typography_Card
 import hu.frzee.uxmorningtarot.themes.Typography_Mono
 import hu.frzee.uxmorningtarot.themes.bigelowRulesFamily
-import hu.frzee.uxmorningtarot.views.helpers.LabelWithSwitch
-import hu.frzee.uxmorningtarot.views.helpers.WeekDaySelector
 import hu.frzee.uxmorningtarot.views.helpers.HorizontalDiv
+import hu.frzee.uxmorningtarot.views.helpers.LabelWithSwitch
+import hu.frzee.uxmorningtarot.views.helpers.RadioButtonList
+import hu.frzee.uxmorningtarot.views.helpers.WeekDaySelector
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AlarmSet(
+fun AlarmSound(
     checkedStateSound: MutableState<Boolean>,
+    songList: List<String>,
     selectedAlarmSong : MutableState<String>,
+    originalSelectedSong: MutableState<String>,
     onBackNavigate: () -> Unit,
-    onSetAlarmSound: () -> Unit,
-    onAlarmSave: () -> Unit,
-    onAlarmDismiss: () -> Unit,
+    onAlarmSoundSave: () -> Unit,
+    onAlarmSoundDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val timePickerState = TimePickerState(9, 15, true)
-    val selectionWeek = mutableListOf<Boolean>()
-    for (i in 1..7) {
-        selectionWeek.add(false)
-    }
-    //val checkedStateSound = remember { mutableStateOf(true) }
-    val checkedStateNoise = remember { mutableStateOf(true) }
-    val checkedStateSleep = remember { mutableStateOf(false) }
-    val checkedStateSpeech = remember { mutableStateOf(false) }
-    var titleInput by remember { mutableStateOf("") }
-
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -109,7 +100,7 @@ fun AlarmSet(
         TopAppBar(
             title = {
                 Text(
-                    text = "Ébresztő",
+                    text = "Ébresztőhang",
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     style = Typography_Mono.titleMedium
                 )
@@ -136,70 +127,37 @@ fun AlarmSet(
                 .padding(12.dp, 10.dp, 12.dp, 20.dp)
                 .weight(1f, false)
         ) {
-
             Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(0.5f, false)
+                    .weight(0.2f, false)
                     .padding(all = 8.dp)
             ) {
-                TimeInput(
-                    state = timePickerState
-                )
-                HorizontalDiv(modifier = Modifier.padding(horizontal = 10.dp))
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.Top),
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .clip(shape = RoundedCornerShape(16.dp))
-                        .background(color = MaterialTheme.colorScheme.surfaceContainerLow)
-                        .padding(all = 10.dp)
-                ) {
-                    Text(
-                        text = "Holnap",
-                        color = MaterialTheme.colorScheme.onSurface,
-                        style = Typography_Mono.titleSmall
-                    )
-                    WeekDaySelector(selectionWeek)
-                }
+                LabelWithSwitch(checkedStateSound, onClickText={},"Bekapcsolás", "")
             }
-
             Column(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Top),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxSize()
-                    .weight(0.6f, false)
+                    .weight(0.7f, false)
                     .padding(all = 6.dp)
                     .verticalScroll(rememberScrollState())
             ) {
-
-                TextField(
-                    value = titleInput,
-                    onValueChange = { titleInput = it },
-                    label = {
-                        Text(
-                            text = "Jelzés neve",
-                            color = MaterialTheme.colorScheme.onTertiaryContainer,
-                            lineHeight = 1.33.em,
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                    },
-                    placeholder = { Text("Név") },
-                    textStyle = MaterialTheme.typography.bodyLarge,
+                HorizontalDiv(modifier = Modifier.padding(horizontal = 10.dp))
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.Start),
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .requiredHeight(height = 56.dp)
-                        .padding(horizontal = 8.dp)
-                        .clip(shape = RoundedCornerShape(6.dp))
-                        .background(color = MaterialTheme.colorScheme.tertiaryContainer)
-                )
-                LabelWithSwitch(checkedStateSound, onClickText = onSetAlarmSound,"Jelzőhang", selectedAlarmSong.value)
-                LabelWithSwitch(checkedStateNoise, onClickText ={}, "Rezgés", "Rövid", color=MaterialTheme.colorScheme.tertiaryContainer)
-                LabelWithSwitch(checkedStateSleep, onClickText ={}, "Szundi", "", )
-                LabelWithSwitch(checkedStateSpeech, onClickText ={}, "Felolvasás", "", color=MaterialTheme.colorScheme.tertiaryContainer)
+                        .clip(shape = RoundedCornerShape(28.dp))
+                        .background(color = MaterialTheme.colorScheme.surface)
+                        .padding(all = 16.dp)
+                ) {
+                    RadioButtonList(songList, selectedAlarmSong)
+                }
             }
             Column(
                 verticalArrangement = Arrangement.Center,
@@ -219,7 +177,10 @@ fun AlarmSet(
                         .padding(vertical = 8.dp)
                 ) {
                     Button(
-                        onClick = onAlarmSave,
+                        onClick = {
+                            originalSelectedSong.value = selectedAlarmSong.value
+                            onAlarmSoundSave()
+                        },
                         shape = RoundedCornerShape(100.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer),
                         contentPadding = PaddingValues(horizontal = 24.dp, vertical = 10.dp),
@@ -249,7 +210,9 @@ fun AlarmSet(
                         }
                     }
                     Button(
-                        onClick = onAlarmDismiss,
+                        onClick = {
+                            selectedAlarmSong.value = originalSelectedSong.value
+                            onAlarmSoundDismiss() },
                         shape = RoundedCornerShape(100.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer),
                         contentPadding = PaddingValues(horizontal = 24.dp, vertical = 10.dp),
@@ -279,19 +242,17 @@ fun AlarmSet(
                     }
                 }
             }
-
         }
     }
-
 }
 
 @Preview(widthDp = 360, heightDp = 800,  name = "Light Mode")
 @Preview(widthDp = 360, heightDp = 800, uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Dark Mode")
 @Composable
-private fun AlarmSetPreview() {
+private fun AlarmSoundPreview() {
     val checkedStateSound = remember { mutableStateOf(true) }
     var alarmSongList = listOf("My Song", "Madár dal", "Aktuális kedvenc", "Pittyegés", "Reggeli torna")
     var alarmSongValue : MutableState<String> = remember { mutableStateOf(alarmSongList[0]) }
     var selectedAlarmSong by remember { mutableStateOf(alarmSongValue) }
-    AlarmSet(checkedStateSound,selectedAlarmSong,{},{},{},{}, Modifier)
+  //  AlarmSound(checkedStateSound,alarmSongList,selectedAlarmSong,{},{},{},Modifier)
 }
