@@ -22,6 +22,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import hu.frzee.uxmorningtarot.themes.MorningTarotTheme
+import hu.frzee.uxmorningtarot.views.AlarmPulse
 import hu.frzee.uxmorningtarot.views.AlarmSet
 import hu.frzee.uxmorningtarot.views.AlarmSound
 import hu.frzee.uxmorningtarot.views.Loading
@@ -42,6 +43,14 @@ fun AppNavHost(
     var selectedAlarmSong by remember { mutableStateOf(alarmSongValue) }
     var originalSongValue : MutableState<String> = remember { mutableStateOf("My Song") }
     var originalSelectedSong by remember { mutableStateOf(originalSongValue) }
+
+    val checkedStatePulse = remember { mutableStateOf(true) }
+    var alarmPulseList = listOf("Hosszú", "Rövid", "Keringő", "Zip-zip-zip")
+    var alarmPulseValue : MutableState<String> = remember { mutableStateOf(alarmPulseList[0]) }
+    var selectedAlarmPulse by remember { mutableStateOf(alarmPulseValue) }
+    var originalPulseValue : MutableState<String> = remember { mutableStateOf("Hosszú") }
+    var originalSelectedPulse by remember { mutableStateOf(originalPulseValue) }
+
     NavHost(
         modifier = modifier,
         navController = navController,
@@ -56,7 +65,7 @@ fun AppNavHost(
         composable(NavigationItem.AlarmSet.route,
             enterTransition = {
                 when (initialState.destination.route) {
-                    Screen.Loading.name ->
+                    Screen.Loading.name,Screen.MainPage.name->
                         slideIntoContainer(
                             AnimatedContentTransitionScope.SlideDirection.Left,
                             animationSpec = tween(700)
@@ -67,7 +76,7 @@ fun AppNavHost(
             },
             exitTransition = {
                 when (targetState.destination.route) {
-                    Screen.Loading.name ->
+                    Screen.Loading.name,Screen.MainPage.name ->
                         slideOutOfContainer(
                             AnimatedContentTransitionScope.SlideDirection.Right,
                             animationSpec = tween(700)
@@ -78,7 +87,7 @@ fun AppNavHost(
             },
             popEnterTransition = {
                 when (initialState.destination.route) {
-                    Screen.Loading.name ->
+                    Screen.Loading.name,Screen.MainPage.name ->
                         slideIntoContainer(
                             AnimatedContentTransitionScope.SlideDirection.Left,
                             animationSpec = tween(700)
@@ -89,7 +98,7 @@ fun AppNavHost(
             },
             popExitTransition = {
                 when (targetState.destination.route) {
-                    Screen.Loading.name ->
+                    Screen.Loading.name,Screen.MainPage.name->
                         slideOutOfContainer(
                             AnimatedContentTransitionScope.SlideDirection.Right,
                             animationSpec = tween(700)
@@ -101,14 +110,61 @@ fun AppNavHost(
         ) {
             AlarmSet(
                 checkedStateSound=checkedStateSound,
+                checkedStatePulse=checkedStatePulse,
                 selectedAlarmSong = selectedAlarmSong,
-                onBackNavigate = { navController.navigate(Screen.MainPage.name) },
+                selectedAlarmPulse = selectedAlarmPulse,
                 onSetAlarmSound = { navController.navigate(Screen.AlarmSound.name) },
+                onSetAlarmPulse = { navController.navigate(Screen.AlarmPulse.name) },
+                onBackNavigate = { navController.navigate(Screen.MainPage.name) },
                 onAlarmSave = { navController.navigate(Screen.MainPage.name) },
                 onAlarmDismiss = { navController.navigate(Screen.MainPage.name) },
             )
         }
-        composable(NavigationItem.AlarmSound.route
+        composable(NavigationItem.AlarmSound.route,
+            enterTransition = {
+            when (initialState.destination.route) {
+                Screen.AlarmSet.name->
+                    slideIntoContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+
+                else -> null
+            }
+        },
+            exitTransition = {
+                when (targetState.destination.route) {
+                    Screen.AlarmSet.name ->
+                        slideOutOfContainer(
+                            AnimatedContentTransitionScope.SlideDirection.Right,
+                            animationSpec = tween(700)
+                        )
+
+                    else -> null
+                }
+            },
+            popEnterTransition = {
+                when (initialState.destination.route) {
+                    Screen.AlarmSet.name ->
+                        slideIntoContainer(
+                            AnimatedContentTransitionScope.SlideDirection.Left,
+                            animationSpec = tween(700)
+                        )
+
+                    else -> null
+                }
+            },
+            popExitTransition = {
+                when (targetState.destination.route) {
+                    Screen.AlarmSet.name->
+                        slideOutOfContainer(
+                            AnimatedContentTransitionScope.SlideDirection.Right,
+                            animationSpec = tween(700)
+                        )
+
+                    else -> null
+                }
+            },
         ) {
             AlarmSound(
                 checkedStateSound= checkedStateSound,
@@ -120,10 +176,10 @@ fun AppNavHost(
                 onAlarmSoundDismiss = { navController.navigate(Screen.AlarmSet.name) },
             )
         }
-        composable(NavigationItem.MainPage.route,
+        composable(NavigationItem.AlarmPulse.route,
             enterTransition = {
                 when (initialState.destination.route) {
-                    Screen.Loading.name ->
+                    Screen.AlarmSet.name->
                         slideIntoContainer(
                             AnimatedContentTransitionScope.SlideDirection.Left,
                             animationSpec = tween(700)
@@ -134,7 +190,7 @@ fun AppNavHost(
             },
             exitTransition = {
                 when (targetState.destination.route) {
-                    Screen.Loading.name ->
+                    Screen.AlarmSet.name ->
                         slideOutOfContainer(
                             AnimatedContentTransitionScope.SlideDirection.Right,
                             animationSpec = tween(700)
@@ -145,7 +201,7 @@ fun AppNavHost(
             },
             popEnterTransition = {
                 when (initialState.destination.route) {
-                    Screen.Loading.name ->
+                    Screen.AlarmSet.name ->
                         slideIntoContainer(
                             AnimatedContentTransitionScope.SlideDirection.Left,
                             animationSpec = tween(700)
@@ -156,7 +212,7 @@ fun AppNavHost(
             },
             popExitTransition = {
                 when (targetState.destination.route) {
-                    Screen.Loading.name ->
+                    Screen.AlarmSet.name->
                         slideOutOfContainer(
                             AnimatedContentTransitionScope.SlideDirection.Right,
                             animationSpec = tween(700)
@@ -165,6 +221,18 @@ fun AppNavHost(
                     else -> null
                 }
             },
+        ) {
+            AlarmPulse(
+                checkedStatePulse= checkedStatePulse,
+                pulseList = alarmPulseList,
+                selectedAlarmPulse = selectedAlarmPulse,
+                originalSelectedPulse = originalSelectedPulse,
+                onBackNavigate = { navController.navigate(Screen.AlarmSet.name) },
+                onAlarmPulseSave = { navController.navigate(Screen.AlarmSet.name) },
+                onAlarmPulseDismiss = { navController.navigate(Screen.AlarmSet.name) },
+            )
+        }
+        composable(NavigationItem.MainPage.route
         ) {
             MainPage(
                 //onBackNavigate = { navController.navigate(Screen.Loading.name) }

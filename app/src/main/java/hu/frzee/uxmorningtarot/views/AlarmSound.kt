@@ -254,5 +254,7 @@ private fun AlarmSoundPreview() {
     var alarmSongList = listOf("My Song", "Madár dal", "Aktuális kedvenc", "Pittyegés", "Reggeli torna")
     var alarmSongValue : MutableState<String> = remember { mutableStateOf(alarmSongList[0]) }
     var selectedAlarmSong by remember { mutableStateOf(alarmSongValue) }
-  //  AlarmSound(checkedStateSound,alarmSongList,selectedAlarmSong,{},{},{},Modifier)
+    var originalSongValue : MutableState<String> = remember { mutableStateOf("My Song") }
+    var originalSelectedSong by remember { mutableStateOf(originalSongValue) }
+    AlarmSound(checkedStateSound,alarmSongList,selectedAlarmSong,originalSelectedSong,{},{},{},Modifier)
 }
