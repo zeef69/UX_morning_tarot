@@ -64,6 +64,7 @@ fun MainPage(
     checkedAlarmState: MutableState<Boolean>,
     onSetAlarm: () -> Unit,
     onSetCalendar: () -> Unit,
+    onSetNote: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val millisToLocalDate = datePickerState.selectedDateMillis?.let {
@@ -522,6 +523,7 @@ fun MainPage(
                                 .border(border = BorderStroke(5.dp, MaterialTheme.colorScheme.primary),
                                     shape = RoundedCornerShape(40.dp))
                                 .padding(horizontal = 8.dp)
+                                .clickable { onSetNote() }
                         ) {
                             Row(
                                 horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
