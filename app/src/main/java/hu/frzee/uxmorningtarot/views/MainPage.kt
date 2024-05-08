@@ -65,6 +65,7 @@ fun MainPage(
     onSetAlarm: () -> Unit,
     onSetCalendar: () -> Unit,
     onSetNote: () -> Unit,
+    onTarotDeck: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val millisToLocalDate = datePickerState.selectedDateMillis?.let {
@@ -261,7 +262,7 @@ fun MainPage(
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
                                     Image(
-                                        painter = painterResource(id = R.drawable.cute_sun),
+                                        painter = painterResource(id = R.mipmap.cute_sun),
                                         contentDescription = "Sun",
                                         modifier = Modifier
                                             .requiredSize(size = 50.dp))
@@ -300,7 +301,7 @@ fun MainPage(
                                         .padding(horizontal = 4.dp)
                                 ) {
                                     Image(
-                                        painter = painterResource(id = R.drawable.image_cloudy),
+                                        painter = painterResource(id = R.mipmap.image_cloudy),
                                         contentDescription = "Weather details-wind",
                                         modifier = Modifier
                                             .requiredSize(size = 20.dp))
@@ -321,7 +322,7 @@ fun MainPage(
                                         .padding(horizontal = 4.dp)
                                 ) {
                                     Image(
-                                        painter = painterResource(id = R.drawable.image_wet),
+                                        painter = painterResource(id = R.mipmap.image_wet),
                                         contentDescription = "Weather details-wet",
                                         modifier = Modifier
                                             .requiredSize(size = 20.dp))
@@ -342,7 +343,7 @@ fun MainPage(
                                         .padding(horizontal = 4.dp)
                                 ) {
                                     Image(
-                                        painter = painterResource(id = R.drawable.image_sunset),
+                                        painter = painterResource(id = R.mipmap.image_sunset),
                                         contentDescription = "Weather details-sunset",
                                         modifier = Modifier
                                             .requiredSize(size = 20.dp))
@@ -407,6 +408,7 @@ fun MainPage(
                         modifier = Modifier
                             .padding(
                                 vertical = 4.dp)
+                            .clickable { onTarotDeck() }
                     ) {
                         Column(
                             verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),

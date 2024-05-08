@@ -33,6 +33,7 @@ import hu.frzee.uxmorningtarot.views.CalendarPicker
 import hu.frzee.uxmorningtarot.views.Loading
 import hu.frzee.uxmorningtarot.views.MainPage
 import hu.frzee.uxmorningtarot.views.NotePage
+import hu.frzee.uxmorningtarot.views.TarotDeck
 import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -103,6 +104,10 @@ fun AppNavHost(
 
     var noteTitle = remember { mutableStateOf("") }
     var noteBody = remember { mutableStateOf("") }
+
+
+    var rotatedCard1 = remember { mutableStateOf(false) }
+    var rotatedCard2 = remember { mutableStateOf(false) }
 
     NavHost(
         modifier = modifier,
@@ -491,6 +496,60 @@ fun AppNavHost(
                     navController.navigate(Screen.MainPage.name) },
             )
         }
+        composable(NavigationItem.TarotDeck.route,
+            enterTransition = {
+                when (initialState.destination.route) {
+                    Screen.MainPage.name->
+                        slideIntoContainer(
+                            AnimatedContentTransitionScope.SlideDirection.Left,
+                            animationSpec = tween(700)
+                        )
+
+                    else -> null
+                }
+            },
+            exitTransition = {
+                when (targetState.destination.route) {
+                    Screen.MainPage.name ->
+                        slideOutOfContainer(
+                            AnimatedContentTransitionScope.SlideDirection.Right,
+                            animationSpec = tween(700)
+                        )
+
+                    else -> null
+                }
+            },
+            popEnterTransition = {
+                when (initialState.destination.route) {
+                    Screen.MainPage.name ->
+                        slideIntoContainer(
+                            AnimatedContentTransitionScope.SlideDirection.Left,
+                            animationSpec = tween(700)
+                        )
+
+                    else -> null
+                }
+            },
+            popExitTransition = {
+                when (targetState.destination.route) {
+                    Screen.MainPage.name->
+                        slideOutOfContainer(
+                            AnimatedContentTransitionScope.SlideDirection.Right,
+                            animationSpec = tween(700)
+                        )
+
+                    else -> null
+                }
+            },
+        ) {
+            TarotDeck(
+                rotatedCard1 = rotatedCard1,
+                rotatedCard2 = rotatedCard2,
+                onBackNavigate = {
+                    navController.popBackStack()
+                    navController.navigate(Screen.MainPage.name) },
+            )
+        }
         composable(NavigationItem.MainPage.route
         ) {
             MainPage(
@@ -501,7 +560,8 @@ fun AppNavHost(
                 checkedAlarmState=checkedAlarmState,
                 onSetAlarm = { navController.navigate(Screen.AlarmSet.name) },
                 onSetCalendar = { navController.navigate(Screen.CalendarPicker.name) },
-                onSetNote = { navController.navigate(Screen.NotePage.name) }
+                onSetNote = { navController.navigate(Screen.NotePage.name) },
+                onTarotDeck = { navController.navigate(Screen.TarotDeck.name) }
                 //onBackNavigate = { navController.navigate(Screen.Loading.name) }
             )
         }
