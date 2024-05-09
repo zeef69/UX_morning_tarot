@@ -2,6 +2,7 @@ package hu.frzee.uxmorningtarot.themes
 
 import androidx.compose.ui.graphics.Color
 
+val card_background_color = Color(0xffffb622)
 val primary_light = Color(0xff6b538c)
 val primary_lightHighContrast = Color(0xff2c164b)
 val primary_lightMediumContrast = Color(0xff4e386e)

@@ -79,7 +79,7 @@ fun MainPage(
         modifier = modifier
             .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.onPrimary)
-            .padding(4.dp, 0.dp, 4.dp, 48.dp),
+            .padding(0.dp, 0.dp, 0.dp, 48.dp),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
 
@@ -112,7 +112,8 @@ fun MainPage(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .padding(
-                                vertical = 4.dp)
+                                vertical = 4.dp
+                            )
                             .clickable { onSetAlarm() }
                     ) {
                         Column(
@@ -122,10 +123,14 @@ fun MainPage(
                                 .fillMaxWidth()
                                 .clip(shape = RoundedCornerShape(40.dp))
                                 .background(color = MaterialTheme.colorScheme.secondaryContainer)
-                                .border(border = BorderStroke(5.dp, MaterialTheme.colorScheme.primary),
-                                    shape = RoundedCornerShape(40.dp))
-                                .padding(horizontal = 8.dp,
-                                    vertical = 12.dp)
+                                .border(
+                                    border = BorderStroke(5.dp, MaterialTheme.colorScheme.primary),
+                                    shape = RoundedCornerShape(40.dp)
+                                )
+                                .padding(
+                                    horizontal = 8.dp,
+                                    vertical = 12.dp
+                                )
                         ) {
                             Column(
                                 verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
@@ -245,8 +250,10 @@ fun MainPage(
                                 .weight(weight = 0.5f)
                                 .clip(shape = RoundedCornerShape(40.dp))
                                 .background(color = MaterialTheme.colorScheme.onPrimary)
-                                .border(border = BorderStroke(5.dp, MaterialTheme.colorScheme.primary),
-                                    shape = RoundedCornerShape(40.dp))
+                                .border(
+                                    border = BorderStroke(5.dp, MaterialTheme.colorScheme.primary),
+                                    shape = RoundedCornerShape(40.dp)
+                                )
                                 .padding(horizontal = 8.dp)
                         ) {
                             Row(
@@ -290,8 +297,10 @@ fun MainPage(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .padding(horizontal = 3.dp,
-                                        vertical = 3.dp)
+                                    .padding(
+                                        horizontal = 3.dp,
+                                        vertical = 3.dp
+                                    )
                             ) {
                                 Row(
                                     horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally),
@@ -365,8 +374,10 @@ fun MainPage(
                                 .weight(weight = 0.5f)
                                 .clip(shape = RoundedCornerShape(40.dp))
                                 .background(color = MaterialTheme.colorScheme.secondaryContainer)
-                                .border(border = BorderStroke(5.dp, MaterialTheme.colorScheme.primary),
-                                    shape = RoundedCornerShape(40.dp))
+                                .border(
+                                    border = BorderStroke(5.dp, MaterialTheme.colorScheme.primary),
+                                    shape = RoundedCornerShape(40.dp)
+                                )
                                 .padding(horizontal = 8.dp)
                                 .clickable { onSetCalendar() }
                         ) {
@@ -407,7 +418,8 @@ fun MainPage(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .padding(
-                                vertical = 4.dp)
+                                vertical = 4.dp
+                            )
                             .clickable { onTarotDeck() }
                     ) {
                         Column(
@@ -417,10 +429,14 @@ fun MainPage(
                                 .fillMaxWidth()
                                 .clip(shape = RoundedCornerShape(40.dp))
                                 .background(color = MaterialTheme.colorScheme.secondaryContainer)
-                                .border(border = BorderStroke(5.dp, MaterialTheme.colorScheme.primary),
-                                    shape = RoundedCornerShape(40.dp))
-                                .padding(horizontal = 8.dp,
-                                    vertical = 16.dp)
+                                .border(
+                                    border = BorderStroke(5.dp, MaterialTheme.colorScheme.primary),
+                                    shape = RoundedCornerShape(40.dp)
+                                )
+                                .padding(
+                                    horizontal = 8.dp,
+                                    vertical = 16.dp
+                                )
                         ) {
                             Row(
                                 horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally),
@@ -438,7 +454,7 @@ fun MainPage(
                                         .fillMaxWidth())
                             }
                             Button(
-                                onClick = { },
+                                onClick = { onTarotDeck() },
                                 shape = RoundedCornerShape(100.dp),
                                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                                 contentPadding = PaddingValues(horizontal = 24.dp, vertical = 10.dp),
@@ -480,8 +496,10 @@ fun MainPage(
                                 .weight(weight = 0.5f)
                                 .clip(shape = RoundedCornerShape(40.dp))
                                 .background(color = MaterialTheme.colorScheme.secondaryContainer)
-                                .border(border = BorderStroke(5.dp, MaterialTheme.colorScheme.primary),
-                                    shape = RoundedCornerShape(40.dp))
+                                .border(
+                                    border = BorderStroke(5.dp, MaterialTheme.colorScheme.primary),
+                                    shape = RoundedCornerShape(40.dp)
+                                )
                                 .padding(horizontal = 8.dp)
                         ) {
                             Row(
@@ -522,8 +540,10 @@ fun MainPage(
                                 .weight(weight = 0.5f)
                                 .clip(shape = RoundedCornerShape(40.dp))
                                 .background(color = MaterialTheme.colorScheme.onPrimary)
-                                .border(border = BorderStroke(5.dp, MaterialTheme.colorScheme.primary),
-                                    shape = RoundedCornerShape(40.dp))
+                                .border(
+                                    border = BorderStroke(5.dp, MaterialTheme.colorScheme.primary),
+                                    shape = RoundedCornerShape(40.dp)
+                                )
                                 .padding(horizontal = 8.dp)
                                 .clickable { onSetNote() }
                         ) {

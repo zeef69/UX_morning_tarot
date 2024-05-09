@@ -156,14 +156,14 @@ val Typography_Mono = Typography(
         letterSpacing = 0.sp
     ),
     titleLarge = TextStyle(
-        fontFamily = robotoFamily,
+        fontFamily = spaceMonoFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 32.sp,
         letterSpacing = (0.2).sp
     ),
     titleMedium = TextStyle(
-        fontFamily = robotoFamily,
-        fontWeight = FontWeight.Medium,
+        fontFamily = spaceMonoFamily,
+        fontWeight = FontWeight.Bold,
         fontSize = 26.sp,
         letterSpacing = 0.sp
     ),

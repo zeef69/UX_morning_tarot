@@ -9,58 +9,70 @@ import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.unit.dp
 import android.content.res.Configuration
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.collection.MutableObjectList
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.em
 import hu.frzee.uxmorningtarot.R
 import hu.frzee.uxmorningtarot.themes.Typography_Mono
 import hu.frzee.uxmorningtarot.views.helpers.FlipCard
-import hu.frzee.uxmorningtarot.views.helpers.HorizontalDiv
-import hu.frzee.uxmorningtarot.views.helpers.LabelWithSwitch
-import hu.frzee.uxmorningtarot.views.helpers.RadioButtonList
+import hu.frzee.uxmorningtarot.views.helpers.TarotCardValue
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TarotDeck(
+    selectedCards: MutableObjectList<TarotCardValue>,
+    selectedCardNum: MutableIntState,
+    rotatedCard0: MutableState<Boolean>,
     rotatedCard1: MutableState<Boolean>,
     rotatedCard2: MutableState<Boolean>,
+    rotatedCard3: MutableState<Boolean>,
+    rotatedCard4: MutableState<Boolean>,
+    rotatedCard5: MutableState<Boolean>,
+    rotatedCard6: MutableState<Boolean>,
+    rotatedCard7: MutableState<Boolean>,
+    rotatedCard8: MutableState<Boolean>,
+    rotatedCard9: MutableState<Boolean>,
+    rotatedCard10: MutableState<Boolean>,
+    rotatedCard11: MutableState<Boolean>,
+    rotatedCard12: MutableState<Boolean>,
+    rotatedCard13: MutableState<Boolean>,
+    rotatedCard14: MutableState<Boolean>,
+    rotatedCard15: MutableState<Boolean>,
+    rotatedCard16: MutableState<Boolean>,
+    rotatedCard17: MutableState<Boolean>,
+    rotatedCard18: MutableState<Boolean>,
+    rotatedCard19: MutableState<Boolean>,
+    rotatedCard20: MutableState<Boolean>,
+    rotatedCard21: MutableState<Boolean>,
+    onCardMeaning: (TarotCardValue) -> Unit,
     onBackNavigate: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val rotatedCard =  ArrayList<MutableState<Boolean>>()
+    var rotatedCard_0 = remember { mutableStateOf(true) }
+    var rotatedCard_1 = remember { mutableStateOf(true) }
+    var rotatedCard_2 = remember { mutableStateOf(true) }
+    rotatedCard.add(rotatedCard_0)
+    rotatedCard.add(rotatedCard_1)
+    rotatedCard.add(rotatedCard_2)
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -70,14 +82,14 @@ fun TarotDeck(
         TopAppBar(
             title = {
                 Text(
-                    text = "Jegyzet",
+                    text = "Napi tarot",
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     style = Typography_Mono.titleMedium
                 )
             },
             navigationIcon = {
                 IconButton(
-                    onClick = onBackNavigate,
+                    onClick = { onBackNavigate() },
                     content = {
                         Icon(
                             painter = painterResource(id = R.drawable.arrow_back_24),
@@ -94,23 +106,306 @@ fun TarotDeck(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(12.dp, 10.dp, 12.dp, 10.dp)
+                .padding(0.dp, 10.dp, 0.dp, 10.dp)
                 .weight(1f, false)
         ) {
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-            ) {
-                Text(
-                    text = "Válassz még 1 kártyát!",
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    textAlign = TextAlign.Center,
-                    style = Typography_Mono.titleLarge,
+            if(selectedCardNum.value <3){
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .fillMaxWidth())
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp)
+                ) {
+                    Text(
+                        text = "Válassz még "+(3-selectedCardNum.value).toString()+" kártyát!",
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        textAlign = TextAlign.Center,
+                        style = Typography_Mono.titleLarge,
+                        modifier = Modifier
+                            .fillMaxWidth())
+                }
+                Column(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                ) {
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.Start),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(color = MaterialTheme.colorScheme.primaryContainer)
+                            .padding(vertical = 20.dp, horizontal = 8.dp)
+                    ) {
+                        item() {
+                            FlipCard(
+                                rotated = rotatedCard0,
+                                card = TarotCardValue.Card0_Bolond,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card0_Bolond)
+                                    }},
+                                selectedCardNum = selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard1,
+                                card =TarotCardValue.Card1_Magus,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card1_Magus)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard2,
+                                card =TarotCardValue.Card2_Fopapno,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card2_Fopapno)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard3,
+                                card =TarotCardValue.Card3_Csaszarno,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card3_Csaszarno)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard4,
+                                card =TarotCardValue.Card4_Csaszar,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card4_Csaszar)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard5,
+                                card =TarotCardValue.Card5_Fopap,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card5_Fopap)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard6,
+                                card =TarotCardValue.Card6_Szereto,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card6_Szereto)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard7,
+                                card =TarotCardValue.Card7_Szeker,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card7_Szeker)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard8,
+                                card =TarotCardValue.Card8_Ero,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card8_Ero)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard9,
+                                card =TarotCardValue.Card9_Remete,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card9_Remete)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard10,
+                                card =TarotCardValue.Card10_Szerencsekerek,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card10_Szerencsekerek)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard11,
+                                card =TarotCardValue.Card11_Igazsag,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card11_Igazsag)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard12,
+                                card =TarotCardValue.Card12_Akasztott,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card12_Akasztott)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard13,
+                                card =TarotCardValue.Card13_Halal,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card13_Halal)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard14,
+                                card =TarotCardValue.Card14_Mertekletesseg,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card14_Mertekletesseg)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard15,
+                                card =TarotCardValue.Card15_Ordog,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card15_Ordog)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard16,
+                                card =TarotCardValue.Card16_Torony,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card16_Torony)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard17,
+                                card =TarotCardValue.Card17_Csillag,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card17_Csillag)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard18,
+                                card =TarotCardValue.Card18_Hold,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card18_Hold)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard19,
+                                card =TarotCardValue.Card19_Nap,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card19_Nap)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard20,
+                                card =TarotCardValue.Card20_Vegitelet,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card20_Vegitelet)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard21,
+                                card =TarotCardValue.Card21_Vilag,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card21_Vilag)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                    }
+                }
+            }
+            if(selectedCardNum.value >=3){
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                ) {
+                    Text(
+                        text = "Kiválasztottad az összes kártyát!",
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        textAlign = TextAlign.Center,
+                        style = Typography_Mono.titleLarge,
+                        modifier = Modifier
+                            .fillMaxWidth())
+                    Text(
+                        text = "Szeretnéd tudni mi a kártyák jelentése?\nHa igen, akkor csak kattints az egyik kártyára és nézd meg mit üzen neked!",
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        textAlign = TextAlign.Center,
+                        lineHeight = (1.5).em,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier
+                            .fillMaxWidth())
+                }
             }
             Column(
                 modifier = modifier
@@ -121,235 +416,21 @@ fun TarotDeck(
                     horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.Start),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(color = Color(0xffeddcff))
-                        .padding(all = 24.dp)
+                        .padding(vertical = 8.dp, horizontal = 8.dp)
                 ) {
-                    item() {
+                    items(selectedCards.size){
                         FlipCard(
-                            rotated=rotatedCard1,
-                            image_resource=R.mipmap.card_00
-                        )
-                    }
-                    item() {
-                        FlipCard(
-                            rotated=rotatedCard2,
-                            image_resource=R.mipmap.card_01
-                        )
-                    }
-                    item() {
-                        FlipCard(
-                            rotated=rotatedCard1,
-                            image_resource=R.mipmap.card_00
-                        )
-                    }
-                    item() {
-                        FlipCard(
-                            rotated=rotatedCard2,
-                            image_resource=R.mipmap.card_01
-                        )
-                    }
-                    item() {
-                        FlipCard(
-                            rotated=rotatedCard1,
-                            image_resource=R.mipmap.card_00
-                        )
-                    }
-                    item() {
-                        FlipCard(
-                            rotated=rotatedCard2,
-                            image_resource = R.mipmap.card_01
+                            rotated = rotatedCard[it],
+                            card = selectedCards[it],
+                            onClick = { onCardMeaning(selectedCards[it]) },
+                            selectedCardNum = selectedCardNum
                         )
                     }
                 }
             }
-
         }
     }
-
 }
-
-
-/*
-* @Composable
-fun CardsDrawing2Light(modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier
-                .requiredWidth(width = 360.dp)
-                .requiredHeight(height = 800.dp)
-                .background(color = Color.White)
-        ) {
-
-            },
-            actions = {
-            Spacer(
-            modifier = Modifier
-                        .requiredHeight(height = 48.dp))
-            })
-        LazyColumn(
-            modifier = Modifier
-                        .fillMaxSize()
-                        .background(color = Color.White)
-            ) {
-            item {
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(horizontal = 16.dp)
-                    ) {
-                    Text(
-                        text = "Válassz még 1 kártyát!",
-                        color = Color(0xff250e44),
-                        textAlign = TextAlign.Center,
-                        style = TextStyle(
-                                                fontSize = 32.sp,
-                                                fontWeight = FontWeight.Bold,
-                                                letterSpacing = 0.2.sp),
-                        modifier = Modifier
-                                                .fillMaxWidth())
-                    }
-                }
-            item {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                                        .fillMaxWidth()
-                    ) {
-                    TarotCardDeck()
-                    }
-                }
-            item {
-                Horizontalinset()
-                }
-            item {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start),
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .padding(start = 16.dp,
-                                                            end = 24.dp,
-                                                            top = 16.dp,
-                                                            bottom = 16.dp)
-                    ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.tarotcard),
-                        contentDescription = "Tarot Card",
-                        modifier = Modifier
-                                                .requiredWidth(width = 139.dp)
-                                                .requiredHeight(height = 232.dp)
-                                                .clip(shape = RoundedCornerShape(20.dp)))
-                    Image(
-                        painter = painterResource(id = R.drawable.tarotcard),
-                        contentDescription = "Tarot Card",
-                        modifier = Modifier
-                                                .requiredWidth(width = 139.dp)
-                                                .requiredHeight(height = 232.dp)
-                                                .clip(shape = RoundedCornerShape(20.dp)))
-                    }
-                }
-            }
-        ConfigurationiconLabelSegments3(
-            modifier = Modifier
-                        .align(alignment = Alignment.BottomStart)
-                        .offset(x = 0.dp,
-                                    y = 0.dp))
-        }
- }
-
-@Composable
-fun TarotCardDeck(modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
-        ) {
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.Start),
-            modifier = Modifier
-                        .fillMaxWidth()
-                        .background(color = Color(0xffeddcff))
-                        .padding(all = 24.dp)
-            ) {
-            items(22) {
-                Image(
-                    painter = painterResource(id = R.drawable.tarotcard22),
-                    contentDescription = "Tarot Card22",
-                    modifier = Modifier
-                                        .requiredWidth(width = 139.dp)
-                                        .requiredHeight(height = 232.dp)
-                                        .clip(shape = RoundedCornerShape(20.dp)))
-                }
-            }
-        }
- }
-
-@Composable
-fun Horizontalinset(modifier: Modifier = Modifier) {
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp)
-        ) {
-        Divider(
-            color = Color(0xff7b757f),
-            modifier = Modifier
-                        .fillMaxWidth())
-        }
- }
-
-@Composable
-fun ConfigurationiconLabelSegments3(modifier: Modifier = Modifier) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
-        modifier = modifier
-                .fillMaxWidth()
-                .background(color = Color(0xffe8e7e9))
-                .padding(horizontal = 8.dp)
-        ) {
-        NavigationBarItem(
-            icon = {
-            Icon(
-            painter = painterResource(id = R.drawable.menu_24px),
-            contentDescription = "Icon",
-            tint = Color(0xff4a454e))
-            },
-            alwaysShowLabel = true,
-            selected = false,
-            onClick = { })
-        NavigationBarItem(
-            icon = {
-            Icon(
-            painter = painterResource(id = R.drawable.check_box_outline_blank),
-            contentDescription = "Icon",
-            tint = Color(0xff4a454e))
-            },
-            alwaysShowLabel = true,
-            selected = false,
-            onClick = { })
-        NavigationBarItem(
-            icon = {
-            Icon(
-            painter = painterResource(id = R.drawable.navigate_before),
-            contentDescription = "Icon",
-            tint = Color(0xff4a454e))
-            },
-            alwaysShowLabel = true,
-            selected = false,
-            onClick = { })
-        }
- }
-
-@Preview(widthDp = 360, heightDp = 800)
-@Composable
-private fun CardsDrawing2LightPreview() {
-    CardsDrawing2Light(Modifier)
- }
-*
-* */
 
 
 @Preview(widthDp = 360, heightDp = 800,  name = "Light Mode")

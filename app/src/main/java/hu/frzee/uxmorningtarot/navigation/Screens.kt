@@ -10,6 +10,7 @@ enum class Screen() {
     CalendarPicker,
     NotePage,
     TarotDeck,
+    TarotCardMeaning,
 }
 sealed class NavigationItem(val route: String) {
     object Loading : NavigationItem(Screen.Loading.name)
@@ -21,4 +22,5 @@ sealed class NavigationItem(val route: String) {
     object CalendarPicker : NavigationItem(Screen.CalendarPicker.name)
     object NotePage : NavigationItem(Screen.NotePage.name)
     object TarotDeck : NavigationItem(Screen.TarotDeck.name)
+    object TarotCardMeaning : NavigationItem(Screen.TarotCardMeaning.name)
 }

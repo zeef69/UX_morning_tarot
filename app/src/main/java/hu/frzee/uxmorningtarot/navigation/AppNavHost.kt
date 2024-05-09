@@ -1,30 +1,26 @@
 package hu.frzee.uxmorningtarot.navigation
 
-import androidx.activity.compose.setContent
+import androidx.collection.mutableObjectListOf
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.shrinkHorizontally
-import androidx.compose.animation.shrinkOut
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navigation
-import hu.frzee.uxmorningtarot.themes.MorningTarotTheme
+import androidx.navigation.navArgument
 import hu.frzee.uxmorningtarot.views.AlarmPulse
 import hu.frzee.uxmorningtarot.views.AlarmSet
 import hu.frzee.uxmorningtarot.views.AlarmSleep
@@ -33,7 +29,9 @@ import hu.frzee.uxmorningtarot.views.CalendarPicker
 import hu.frzee.uxmorningtarot.views.Loading
 import hu.frzee.uxmorningtarot.views.MainPage
 import hu.frzee.uxmorningtarot.views.NotePage
+import hu.frzee.uxmorningtarot.views.TarotCardMeaning
 import hu.frzee.uxmorningtarot.views.TarotDeck
+import hu.frzee.uxmorningtarot.views.helpers.TarotCardValue
 import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -105,9 +103,32 @@ fun AppNavHost(
     var noteTitle = remember { mutableStateOf("") }
     var noteBody = remember { mutableStateOf("") }
 
-
+    //Kártya állapotváltozók
+    val selectedCardList = remember { mutableObjectListOf<TarotCardValue>() }
+    var selectedCardNum = remember { mutableIntStateOf(0) }
+    var rotatedCard0 = remember { mutableStateOf(false) }
     var rotatedCard1 = remember { mutableStateOf(false) }
     var rotatedCard2 = remember { mutableStateOf(false) }
+    var rotatedCard3 = remember { mutableStateOf(false) }
+    var rotatedCard4 = remember { mutableStateOf(false) }
+    var rotatedCard5 = remember { mutableStateOf(false) }
+    var rotatedCard6 = remember { mutableStateOf(false) }
+    var rotatedCard7 = remember { mutableStateOf(false) }
+    var rotatedCard8 = remember { mutableStateOf(false) }
+    var rotatedCard9 = remember { mutableStateOf(false) }
+    var rotatedCard10 = remember { mutableStateOf(false) }
+    var rotatedCard11 = remember { mutableStateOf(false) }
+    var rotatedCard12 = remember { mutableStateOf(false) }
+    var rotatedCard13 = remember { mutableStateOf(false) }
+    var rotatedCard14 = remember { mutableStateOf(false) }
+    var rotatedCard15 = remember { mutableStateOf(false) }
+    var rotatedCard16 = remember { mutableStateOf(false) }
+    var rotatedCard17 = remember { mutableStateOf(false) }
+    var rotatedCard18 = remember { mutableStateOf(false) }
+    var rotatedCard19 = remember { mutableStateOf(false) }
+    var rotatedCard20 = remember { mutableStateOf(false) }
+    var rotatedCard21 = remember { mutableStateOf(false) }
+
 
     NavHost(
         modifier = modifier,
@@ -543,11 +564,92 @@ fun AppNavHost(
             },
         ) {
             TarotDeck(
+                selectedCards = selectedCardList,
+                selectedCardNum = selectedCardNum,
+                rotatedCard0 = rotatedCard0,
                 rotatedCard1 = rotatedCard1,
                 rotatedCard2 = rotatedCard2,
+                rotatedCard3 = rotatedCard3,
+                rotatedCard4 = rotatedCard4,
+                rotatedCard5 = rotatedCard5,
+                rotatedCard6 = rotatedCard6,
+                rotatedCard7 = rotatedCard7,
+                rotatedCard8 = rotatedCard8,
+                rotatedCard9 = rotatedCard9,
+                rotatedCard10 = rotatedCard10,
+                rotatedCard11 = rotatedCard11,
+                rotatedCard12 = rotatedCard12,
+                rotatedCard13 = rotatedCard13,
+                rotatedCard14 = rotatedCard14,
+                rotatedCard15 = rotatedCard15,
+                rotatedCard16 = rotatedCard16,
+                rotatedCard17 = rotatedCard17,
+                rotatedCard18 = rotatedCard18,
+                rotatedCard19 = rotatedCard19,
+                rotatedCard20 = rotatedCard20,
+                rotatedCard21 = rotatedCard21,
+                onCardMeaning = {
+                    navController.navigate(Screen.TarotCardMeaning.name+"?cardType={"+it.name+"}")
+                },
                 onBackNavigate = {
                     navController.popBackStack()
                     navController.navigate(Screen.MainPage.name) },
+            )
+        }
+        composable(
+            NavigationItem.TarotCardMeaning.route +"?cardType={cardType}",
+            arguments = listOf(navArgument("cardType") { defaultValue = TarotCardValue.Card0_Bolond.name }),
+            enterTransition = {
+                when (initialState.destination.route) {
+                    Screen.TarotDeck.name->
+                        slideIntoContainer(
+                            AnimatedContentTransitionScope.SlideDirection.Left,
+                            animationSpec = tween(700)
+                        )
+
+                    else -> null
+                }
+            },
+            exitTransition = {
+                when (targetState.destination.route) {
+                    Screen.TarotDeck.name ->
+                        slideOutOfContainer(
+                            AnimatedContentTransitionScope.SlideDirection.Right,
+                            animationSpec = tween(700)
+                        )
+
+                    else -> null
+                }
+            },
+            popEnterTransition = {
+                when (initialState.destination.route) {
+                    Screen.TarotDeck.name ->
+                        slideIntoContainer(
+                            AnimatedContentTransitionScope.SlideDirection.Left,
+                            animationSpec = tween(700)
+                        )
+
+                    else -> null
+                }
+            },
+            popExitTransition = {
+                when (targetState.destination.route) {
+                    Screen.TarotDeck.name->
+                        slideOutOfContainer(
+                            AnimatedContentTransitionScope.SlideDirection.Right,
+                            animationSpec = tween(700)
+                        )
+
+                    else -> null
+                }
+            },
+
+        ) {
+            TarotCardMeaning(
+                _cardType = it.arguments?.getString("cardType"),
+                onBackNavigate = {
+                    navController.popBackStack()
+                    navController.navigate(Screen.TarotDeck.name) }
             )
         }
         composable(NavigationItem.MainPage.route
