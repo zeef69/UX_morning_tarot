@@ -1,5 +1,7 @@
 package hu.frzee.uxmorningtarot.navigation
 
+import android.speech.tts.TextToSpeech
+import android.widget.Button
 import androidx.collection.mutableObjectListOf
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
@@ -38,6 +40,8 @@ import java.util.Calendar
 @Composable
 fun AppNavHost(
     modifier: Modifier = Modifier,
+    btnSpeak: MutableState<Boolean>,
+    tts: TextToSpeech?,
     navController: NavHostController = rememberNavController(),
     enterTransition: () -> EnterTransition = { EnterTransition.None },
     exitTransition: () -> ExitTransition = { ExitTransition.None },
@@ -588,10 +592,13 @@ fun AppNavHost(
                 rotatedCard19 = rotatedCard19,
                 rotatedCard20 = rotatedCard20,
                 rotatedCard21 = rotatedCard21,
+                btnSpeak = btnSpeak,
+                tts = tts,
                 onCardMeaning = {
                     navController.navigate(Screen.TarotCardMeaning.name+"?cardType={"+it.name+"}")
                 },
                 onBackNavigate = {
+                    tts!!.stop()
                     navController.popBackStack()
                     navController.navigate(Screen.MainPage.name) },
             )

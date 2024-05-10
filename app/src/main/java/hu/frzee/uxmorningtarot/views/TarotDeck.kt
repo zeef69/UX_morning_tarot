@@ -12,10 +12,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.unit.dp
 import android.content.res.Configuration
+import android.speech.tts.TextToSpeech
 import androidx.collection.MutableObjectList
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -61,6 +68,8 @@ fun TarotDeck(
     rotatedCard19: MutableState<Boolean>,
     rotatedCard20: MutableState<Boolean>,
     rotatedCard21: MutableState<Boolean>,
+    btnSpeak: MutableState<Boolean>,
+    tts: TextToSpeech?,
     onCardMeaning: (TarotCardValue) -> Unit,
     onBackNavigate: () -> Unit,
     modifier: Modifier = Modifier
@@ -394,11 +403,11 @@ fun TarotDeck(
                         text = "Kiválasztottad az összes kártyát!",
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                         textAlign = TextAlign.Center,
-                        style = Typography_Mono.titleLarge,
+                        style = Typography_Mono.titleMedium,
                         modifier = Modifier
                             .fillMaxWidth())
                     Text(
-                        text = "Szeretnéd tudni mi a kártyák jelentése?\nHa igen, akkor csak kattints az egyik kártyára és nézd meg mit üzen neked!",
+                        text = "Szeretnéd tudni mi a kártyák jelentése?\nHa igen, akkor csak kattints az egyik kártyára és nézd meg mit üzen neked a kártya!",
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                         textAlign = TextAlign.Center,
                         lineHeight = (1.5).em,
@@ -428,10 +437,70 @@ fun TarotDeck(
                     }
                 }
             }
+            if(selectedCardNum.value >=3 && btnSpeak.value) {
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .weight(0.1f, false)
+                        .padding(horizontal = 6.dp)
+                ) {
+                    Text(
+                        text = "Meghallgatnád inkább angolul? Olvastasd fel!",
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        textAlign = TextAlign.Center,
+                        lineHeight = (1.5).em,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier
+                            .fillMaxWidth())
+                    Button(
+                        onClick = {
+                            speakOut(tts, selectedCards)
+                        },
+                        shape = RoundedCornerShape(100.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer),
+                        contentPadding = PaddingValues(horizontal = 24.dp, vertical = 10.dp),
+                        modifier = Modifier
+                            .requiredHeight(height = 40.dp)
+
+                    ) {
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(
+                                8.dp,
+                                Alignment.CenterVertically
+                            ),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier
+                                .requiredHeight(height = 40.dp)
+                        ) {
+                            Text(
+                                text = "Felolvasás",
+                                color = MaterialTheme.colorScheme.onTertiaryContainer,
+                                textAlign = TextAlign.Center,
+                                lineHeight = 1.43.em,
+                                style = MaterialTheme.typography.labelLarge,
+                                modifier = Modifier
+                                    .wrapContentHeight(align = Alignment.CenterVertically)
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 }
 
+fun speakOut(tts: TextToSpeech?, selectedCards: MutableObjectList<TarotCardValue> ) {
+    var text = ""
+    for(i in 0..<selectedCards.size){
+        text += selectedCards[i].getNameEnglish()
+        text += "\n"
+        text += selectedCards[i].getMeaningEnglish()
+        text += "\n"
+    }
+    tts!!.speak(text, TextToSpeech.QUEUE_FLUSH, null,"")
+}
 
 @Preview(widthDp = 360, heightDp = 800,  name = "Light Mode")
 @Preview(widthDp = 360, heightDp = 800, uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Dark Mode")
