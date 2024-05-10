@@ -1,5 +1,6 @@
 package hu.frzee.uxmorningtarot.views
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -91,6 +92,7 @@ fun AlarmSound(
     onAlarmSoundDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -256,5 +258,5 @@ private fun AlarmSoundPreview() {
     var selectedAlarmSong by remember { mutableStateOf(alarmSongValue) }
     var originalSongValue : MutableState<String> = remember { mutableStateOf("My Song") }
     var originalSelectedSong by remember { mutableStateOf(originalSongValue) }
-    AlarmSound(checkedStateSound,alarmSongList,selectedAlarmSong,originalSelectedSong,{},{},{},Modifier)
+    //AlarmSound(checkedStateSound,alarmSongList,selectedAlarmSong,originalSelectedSong,{},{},{},Modifier)
 }

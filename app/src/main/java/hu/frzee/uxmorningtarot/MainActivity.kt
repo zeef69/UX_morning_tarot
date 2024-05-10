@@ -1,5 +1,6 @@
 package hu.frzee.uxmorningtarot
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -25,7 +26,6 @@ import java.util.Locale
 class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var tts: TextToSpeech? = null
     private var btnSpeak = mutableStateOf(false)
-//    private var etSpeak: EditText? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -56,6 +56,7 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             }
         }
     }
+
 
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {

@@ -87,6 +87,7 @@ fun AlarmSet(
     checkedStateSound: MutableState<Boolean>,
     checkedStatePulse: MutableState<Boolean>,
     checkedStateSleep: MutableState<Boolean>,
+    checkedStateSpeech: MutableState<Boolean>,
     selectedAlarmSong : MutableState<String>,
     selectedAlarmPulse : MutableState<String>,
     selectedAlarmInterval : MutableState<String>,
@@ -100,7 +101,6 @@ fun AlarmSet(
     onAlarmDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val checkedStateSpeech = remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier
