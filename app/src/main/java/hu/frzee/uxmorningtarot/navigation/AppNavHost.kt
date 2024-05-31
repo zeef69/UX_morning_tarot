@@ -1,8 +1,8 @@
 package hu.frzee.uxmorningtarot.navigation
 
-import android.content.Context
 import android.speech.tts.TextToSpeech
-import android.widget.Button
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.compose.BackHandler
 import androidx.collection.mutableObjectListOf
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
@@ -105,6 +105,7 @@ fun AppNavHost(
         Calendar.getInstance().timeInMillis
     }
     val datePickerState = rememberDatePickerState(initialSelectedDateMillis = date)
+    var calendarNote = remember { mutableStateOf("") }
 
     var noteTitle = remember { mutableStateOf("") }
     var noteBody = remember { mutableStateOf("") }
@@ -221,6 +222,10 @@ fun AppNavHost(
                     navController.popBackStack()
                     navController.navigate(Screen.MainPage.name) },
             )
+            BackHandler {
+                navController.popBackStack()
+                navController.navigate(Screen.MainPage.name)
+            }
         }
         composable(NavigationItem.AlarmSound.route,
             enterTransition = {
@@ -283,6 +288,10 @@ fun AppNavHost(
                     navController.popBackStack()
                     navController.navigate(Screen.AlarmSet.name) },
             )
+            BackHandler {
+                navController.popBackStack()
+                navController.navigate(Screen.AlarmSet.name)
+            }
         }
         composable(NavigationItem.AlarmPulse.route,
             enterTransition = {
@@ -345,6 +354,10 @@ fun AppNavHost(
                     navController.popBackStack()
                     navController.navigate(Screen.AlarmSet.name) },
             )
+            BackHandler {
+                navController.popBackStack()
+                navController.navigate(Screen.AlarmSet.name)
+            }
         }
         composable(NavigationItem.AlarmSleep.route,
             enterTransition = {
@@ -410,6 +423,10 @@ fun AppNavHost(
                     navController.popBackStack()
                     navController.navigate(Screen.AlarmSet.name) },
             )
+            BackHandler {
+                navController.popBackStack()
+                navController.navigate(Screen.AlarmSet.name)
+            }
         }
         composable(NavigationItem.CalendarPicker.route,
             enterTransition = {
@@ -458,11 +475,16 @@ fun AppNavHost(
             },
         ) {
             CalendarPicker(
+                calendarNote= calendarNote,
                 datePickerState = datePickerState,
                 onBackNavigate = {
                     navController.popBackStack()
                     navController.navigate(Screen.MainPage.name) },
             )
+            BackHandler {
+                navController.popBackStack()
+                navController.navigate(Screen.MainPage.name)
+            }
         }
         composable(NavigationItem.NotePage.route,
             enterTransition = {
@@ -523,6 +545,10 @@ fun AppNavHost(
                     navController.popBackStack()
                     navController.navigate(Screen.MainPage.name) },
             )
+            BackHandler {
+                navController.popBackStack()
+                navController.navigate(Screen.MainPage.name)
+            }
         }
         composable(NavigationItem.TarotDeck.route,
             enterTransition = {
@@ -598,6 +624,7 @@ fun AppNavHost(
                 btnSpeak = btnSpeak,
                 tts = tts,
                 onCardMeaning = {
+                    tts!!.stop()
                     navController.navigate(Screen.TarotCardMeaning.name+"?cardType={"+it.name+"}")
                 },
                 onBackNavigate = {
@@ -605,6 +632,11 @@ fun AppNavHost(
                     navController.popBackStack()
                     navController.navigate(Screen.MainPage.name) },
             )
+            BackHandler {
+                tts!!.stop()
+                navController.popBackStack()
+                navController.navigate(Screen.MainPage.name)
+            }
         }
         composable(
             NavigationItem.TarotCardMeaning.route +"?cardType={cardType}",
@@ -653,7 +685,6 @@ fun AppNavHost(
                     else -> null
                 }
             },
-
         ) {
             TarotCardMeaning(
                 _cardType = it.arguments?.getString("cardType"),
@@ -661,6 +692,10 @@ fun AppNavHost(
                     navController.popBackStack()
                     navController.navigate(Screen.TarotDeck.name) }
             )
+            BackHandler {
+                navController.popBackStack()
+                navController.navigate(Screen.TarotDeck.name)
+            }
         }
         composable(NavigationItem.MainPage.route
         ) {
@@ -674,16 +709,7 @@ fun AppNavHost(
                 onSetCalendar = { navController.navigate(Screen.CalendarPicker.name) },
                 onSetNote = { navController.navigate(Screen.NotePage.name) },
                 onTarotDeck = { navController.navigate(Screen.TarotDeck.name) }
-                //onBackNavigate = { navController.navigate(Screen.Loading.name) }
             )
         }
-        /*
-        *
-        navigation(startDestination = "username", route = "login") {
-            composable("username") { ... }
-            composable("password") { ... }
-            composable("registration") { ... }
-        }
-        * */
     }
 }

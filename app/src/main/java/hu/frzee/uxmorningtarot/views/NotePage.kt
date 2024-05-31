@@ -107,7 +107,7 @@ fun NotePage(
                 TextField(
                     value = noteTitle.value,
                     onValueChange = { noteTitle.value = it },
-                    placeholder = { Text("Input") },
+                    placeholder = { Text("Cím") },
                     textStyle = MaterialTheme.typography.bodyLarge,
                     colors = TextFieldDefaults.textFieldColors(
                         containerColor = MaterialTheme.colorScheme.surface, 
@@ -132,6 +132,7 @@ fun NotePage(
                 TextField(
                     value = noteBody.value,
                     onValueChange = { noteBody.value = it },
+                    placeholder = { Text("Jegyzetem") },
                     colors = TextFieldDefaults.textFieldColors(
                         containerColor = MaterialTheme.colorScheme.surface,
                         unfocusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,

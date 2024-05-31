@@ -13,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.unit.dp
 import android.content.res.Configuration
 import android.speech.tts.TextToSpeech
+import androidx.activity.compose.BackHandler
 import androidx.collection.MutableObjectList
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -148,22 +149,22 @@ fun TarotDeck(
                     ) {
                         item() {
                             FlipCard(
-                                rotated = rotatedCard0,
-                                card = TarotCardValue.Card0_Bolond,
+                                rotated =rotatedCard9,
+                                card =TarotCardValue.Card9_Remete,
                                 onClick = {
                                     if(selectedCardNum.value < 3){
-                                        selectedCards.add(TarotCardValue.Card0_Bolond)
+                                        selectedCards.add(TarotCardValue.Card9_Remete)
                                     }},
-                                selectedCardNum = selectedCardNum
+                                selectedCardNum =selectedCardNum
                             )
                         }
                         item() {
                             FlipCard(
-                                rotated =rotatedCard1,
-                                card =TarotCardValue.Card1_Magus,
+                                rotated =rotatedCard17,
+                                card =TarotCardValue.Card17_Csillag,
                                 onClick = {
                                     if(selectedCardNum.value < 3){
-                                        selectedCards.add(TarotCardValue.Card1_Magus)
+                                        selectedCards.add(TarotCardValue.Card17_Csillag)
                                     }},
                                 selectedCardNum =selectedCardNum
                             )
@@ -175,50 +176,6 @@ fun TarotDeck(
                                 onClick = {
                                     if(selectedCardNum.value < 3){
                                         selectedCards.add(TarotCardValue.Card2_Fopapno)
-                                    }},
-                                selectedCardNum =selectedCardNum
-                            )
-                        }
-                        item() {
-                            FlipCard(
-                                rotated =rotatedCard3,
-                                card =TarotCardValue.Card3_Csaszarno,
-                                onClick = {
-                                    if(selectedCardNum.value < 3){
-                                        selectedCards.add(TarotCardValue.Card3_Csaszarno)
-                                    }},
-                                selectedCardNum =selectedCardNum
-                            )
-                        }
-                        item() {
-                            FlipCard(
-                                rotated =rotatedCard4,
-                                card =TarotCardValue.Card4_Csaszar,
-                                onClick = {
-                                    if(selectedCardNum.value < 3){
-                                        selectedCards.add(TarotCardValue.Card4_Csaszar)
-                                    }},
-                                selectedCardNum =selectedCardNum
-                            )
-                        }
-                        item() {
-                            FlipCard(
-                                rotated =rotatedCard5,
-                                card =TarotCardValue.Card5_Fopap,
-                                onClick = {
-                                    if(selectedCardNum.value < 3){
-                                        selectedCards.add(TarotCardValue.Card5_Fopap)
-                                    }},
-                                selectedCardNum =selectedCardNum
-                            )
-                        }
-                        item() {
-                            FlipCard(
-                                rotated =rotatedCard6,
-                                card =TarotCardValue.Card6_Szereto,
-                                onClick = {
-                                    if(selectedCardNum.value < 3){
-                                        selectedCards.add(TarotCardValue.Card6_Szereto)
                                     }},
                                 selectedCardNum =selectedCardNum
                             )
@@ -247,22 +204,44 @@ fun TarotDeck(
                         }
                         item() {
                             FlipCard(
-                                rotated =rotatedCard9,
-                                card =TarotCardValue.Card9_Remete,
+                                rotated =rotatedCard10,
+                                card =TarotCardValue.Card10_Szerencsekerek,
                                 onClick = {
                                     if(selectedCardNum.value < 3){
-                                        selectedCards.add(TarotCardValue.Card9_Remete)
+                                        selectedCards.add(TarotCardValue.Card10_Szerencsekerek)
                                     }},
                                 selectedCardNum =selectedCardNum
                             )
                         }
                         item() {
                             FlipCard(
-                                rotated =rotatedCard10,
-                                card =TarotCardValue.Card10_Szerencsekerek,
+                                rotated =rotatedCard20,
+                                card =TarotCardValue.Card20_Vegitelet,
                                 onClick = {
                                     if(selectedCardNum.value < 3){
-                                        selectedCards.add(TarotCardValue.Card10_Szerencsekerek)
+                                        selectedCards.add(TarotCardValue.Card20_Vegitelet)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard16,
+                                card =TarotCardValue.Card16_Torony,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card16_Torony)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard5,
+                                card =TarotCardValue.Card5_Fopap,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card5_Fopap)
                                     }},
                                 selectedCardNum =selectedCardNum
                             )
@@ -291,66 +270,22 @@ fun TarotDeck(
                         }
                         item() {
                             FlipCard(
-                                rotated =rotatedCard13,
-                                card =TarotCardValue.Card13_Halal,
+                                rotated = rotatedCard0,
+                                card = TarotCardValue.Card0_Bolond,
                                 onClick = {
                                     if(selectedCardNum.value < 3){
-                                        selectedCards.add(TarotCardValue.Card13_Halal)
+                                        selectedCards.add(TarotCardValue.Card0_Bolond)
                                     }},
-                                selectedCardNum =selectedCardNum
+                                selectedCardNum = selectedCardNum
                             )
                         }
                         item() {
                             FlipCard(
-                                rotated =rotatedCard14,
-                                card =TarotCardValue.Card14_Mertekletesseg,
+                                rotated =rotatedCard3,
+                                card =TarotCardValue.Card3_Csaszarno,
                                 onClick = {
                                     if(selectedCardNum.value < 3){
-                                        selectedCards.add(TarotCardValue.Card14_Mertekletesseg)
-                                    }},
-                                selectedCardNum =selectedCardNum
-                            )
-                        }
-                        item() {
-                            FlipCard(
-                                rotated =rotatedCard15,
-                                card =TarotCardValue.Card15_Ordog,
-                                onClick = {
-                                    if(selectedCardNum.value < 3){
-                                        selectedCards.add(TarotCardValue.Card15_Ordog)
-                                    }},
-                                selectedCardNum =selectedCardNum
-                            )
-                        }
-                        item() {
-                            FlipCard(
-                                rotated =rotatedCard16,
-                                card =TarotCardValue.Card16_Torony,
-                                onClick = {
-                                    if(selectedCardNum.value < 3){
-                                        selectedCards.add(TarotCardValue.Card16_Torony)
-                                    }},
-                                selectedCardNum =selectedCardNum
-                            )
-                        }
-                        item() {
-                            FlipCard(
-                                rotated =rotatedCard17,
-                                card =TarotCardValue.Card17_Csillag,
-                                onClick = {
-                                    if(selectedCardNum.value < 3){
-                                        selectedCards.add(TarotCardValue.Card17_Csillag)
-                                    }},
-                                selectedCardNum =selectedCardNum
-                            )
-                        }
-                        item() {
-                            FlipCard(
-                                rotated =rotatedCard18,
-                                card =TarotCardValue.Card18_Hold,
-                                onClick = {
-                                    if(selectedCardNum.value < 3){
-                                        selectedCards.add(TarotCardValue.Card18_Hold)
+                                        selectedCards.add(TarotCardValue.Card3_Csaszarno)
                                     }},
                                 selectedCardNum =selectedCardNum
                             )
@@ -368,11 +303,11 @@ fun TarotDeck(
                         }
                         item() {
                             FlipCard(
-                                rotated =rotatedCard20,
-                                card =TarotCardValue.Card20_Vegitelet,
+                                rotated =rotatedCard6,
+                                card =TarotCardValue.Card6_Szereto,
                                 onClick = {
                                     if(selectedCardNum.value < 3){
-                                        selectedCards.add(TarotCardValue.Card20_Vegitelet)
+                                        selectedCards.add(TarotCardValue.Card6_Szereto)
                                     }},
                                 selectedCardNum =selectedCardNum
                             )
@@ -384,6 +319,72 @@ fun TarotDeck(
                                 onClick = {
                                     if(selectedCardNum.value < 3){
                                         selectedCards.add(TarotCardValue.Card21_Vilag)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard4,
+                                card =TarotCardValue.Card4_Csaszar,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card4_Csaszar)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard14,
+                                card =TarotCardValue.Card14_Mertekletesseg,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card14_Mertekletesseg)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard1,
+                                card =TarotCardValue.Card1_Magus,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card1_Magus)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard15,
+                                card =TarotCardValue.Card15_Ordog,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card15_Ordog)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard18,
+                                card =TarotCardValue.Card18_Hold,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card18_Hold)
+                                    }},
+                                selectedCardNum =selectedCardNum
+                            )
+                        }
+                        item() {
+                            FlipCard(
+                                rotated =rotatedCard13,
+                                card =TarotCardValue.Card13_Halal,
+                                onClick = {
+                                    if(selectedCardNum.value < 3){
+                                        selectedCards.add(TarotCardValue.Card13_Halal)
                                     }},
                                 selectedCardNum =selectedCardNum
                             )

@@ -29,6 +29,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.MutableState
@@ -45,16 +47,17 @@ import hu.frzee.uxmorningtarot.themes.Typography_Mono
 import hu.frzee.uxmorningtarot.views.helpers.HorizontalDiv
 import hu.frzee.uxmorningtarot.views.helpers.LabelWithSwitch
 import hu.frzee.uxmorningtarot.views.helpers.RadioButtonList
+import java.util.Calendar
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CalendarPicker(
+    calendarNote: MutableState<String>,
     datePickerState: DatePickerState,
     onBackNavigate: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    //val datePickerState = rememberDatePickerState()
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -94,27 +97,42 @@ fun CalendarPicker(
             DatePicker(
                 state = datePickerState,
                 modifier = Modifier
-                    .align(alignment = Alignment.Start)
+                    .align(alignment = Alignment.CenterHorizontally)
             )
-
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(0.1f, false)
+                    .padding(all = 8.dp)
+            ) {
+                TextField(
+                    value = calendarNote.value,
+                    onValueChange = { calendarNote.value = it },
+                    placeholder = { Text("Esemény") },
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = MaterialTheme.colorScheme.surface,
+                        unfocusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        focusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp)))
+            }
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview(widthDp = 360, heightDp = 800,  name = "Light Mode")
 @Preview(widthDp = 360, heightDp = 800, uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Dark Mode")
 @Composable
 private fun CalendarPickerPreview() {
-    val checkedStateSound = remember { mutableStateOf(true) }
-    var alarmSongList = listOf("My Song", "Madár dal", "Aktuális kedvenc", "Pittyegés", "Reggeli torna")
-    var alarmSongList2 = listOf("My Song", "Madár dal", "Aktuális kedvenc", "Pittyegés", "Reggeli torna")
-    var alarmSongValue : MutableState<String> = remember { mutableStateOf(alarmSongList[0]) }
-    var alarmSongValue2 : MutableState<String> = remember { mutableStateOf(alarmSongList2[0]) }
-    var selectedAlarmSong by remember { mutableStateOf(alarmSongValue) }
-    var selectedAlarmSong2 by remember { mutableStateOf(alarmSongValue2) }
-    var originalSongValue : MutableState<String> = remember { mutableStateOf("My Song") }
-    var originalSongValue2 : MutableState<String> = remember { mutableStateOf("My Song") }
-    var originalSelectedSong by remember { mutableStateOf(originalSongValue) }
-    var originalSelectedSong2 by remember { mutableStateOf(originalSongValue2) }
-    //CalendarPicker({},Modifier)
+    val date = remember {
+        Calendar.getInstance().timeInMillis
+    }
+    val datePickerState = rememberDatePickerState(initialSelectedDateMillis = date)
+    var calendarNote = remember { mutableStateOf("") }
+    CalendarPicker(calendarNote,datePickerState,{},Modifier)
 }
