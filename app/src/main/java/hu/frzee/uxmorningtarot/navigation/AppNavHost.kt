@@ -1,7 +1,6 @@
 package hu.frzee.uxmorningtarot.navigation
 
 import android.speech.tts.TextToSpeech
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.BackHandler
 import androidx.collection.mutableObjectListOf
 import androidx.compose.animation.AnimatedContentTransitionScope

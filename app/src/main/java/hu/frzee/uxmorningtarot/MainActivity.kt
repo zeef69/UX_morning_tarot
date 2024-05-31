@@ -13,7 +13,6 @@ import hu.frzee.uxmorningtarot.navigation.AppNavHost
 import hu.frzee.uxmorningtarot.themes.MorningTarotTheme
 import android.speech.tts.TextToSpeech
 import android.util.Log
-import androidx.activity.addCallback
 import androidx.compose.runtime.mutableStateOf
 import java.util.Locale
 

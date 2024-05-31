@@ -24,7 +24,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
-import hu.frzee.uxmorningtarot.themes.Typography_Card
 import hu.frzee.uxmorningtarot.themes.Typography_Mono
 
 @Composable

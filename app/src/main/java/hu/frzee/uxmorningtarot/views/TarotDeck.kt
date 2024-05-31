@@ -13,7 +13,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.unit.dp
 import android.content.res.Configuration
 import android.speech.tts.TextToSpeech
-import androidx.activity.compose.BackHandler
 import androidx.collection.MutableObjectList
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row

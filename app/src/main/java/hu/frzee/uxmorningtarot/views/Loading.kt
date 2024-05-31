@@ -1,7 +1,5 @@
 package hu.frzee.uxmorningtarot.views
 
-
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -13,12 +11,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.requiredWidth
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.PaddingValues
@@ -30,25 +25,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.lightColorScheme
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.em
-import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import hu.frzee.uxmorningtarot.R
 import hu.frzee.uxmorningtarot.themes.MorningTarotTheme
-import hu.frzee.uxmorningtarot.navigation.NavigationItem
-import hu.frzee.uxmorningtarot.navigation.Screen
-import hu.frzee.uxmorningtarot.themes.MorningTarotTheme
 import hu.frzee.uxmorningtarot.themes.Typography_Card
-import hu.frzee.uxmorningtarot.themes.bigelowRulesFamily
 
 @Composable
 fun Loading(
